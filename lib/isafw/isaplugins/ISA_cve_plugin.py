@@ -72,11 +72,11 @@ class ISA_CVEChecker:
                 alias_pkgs_faux = []
                 # need to compose faux format line for cve-check-tool
                 cve_patch_info = self.process_patch_list(ISA_pkg.patch_files)
-                pkgline_faux = ISA_pkg.name + "," + ISA_pkg.version + "," + cve_patch_info + ",\n"
+                pkgline_faux = ISA_pkg.name + "," + ISA_pkg.version + "," + cve_patch_info + "," + "," + ISA_pkg.layer + "," + ISA_pkg.layer_path + ",\n"
                 if ISA_pkg.aliases:
                     for a in ISA_pkg.aliases:
                         alias_pkgs_faux.append(
-                            a + "," + ISA_pkg.version + "," + cve_patch_info + ",\n")
+                            a + "," + ISA_pkg.version + "," + cve_patch_info + "," + "," + "," + ",\n")
                 pkglist_faux = pkglist + "_" + self.timestamp + ".faux"
                 with open(self.reportdir + pkglist_faux, 'a') as fauxfile:
                     fauxfile.write(pkgline_faux)

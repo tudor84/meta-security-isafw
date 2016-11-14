@@ -65,6 +65,8 @@ class ISA_package:
     source_files = []             # list of strings of source files
     patch_files = []              # list of patch files to be applied
     path_to_sources = ""          # path to the source files
+    layer = ""                    # layer coresponding to recipe
+    layer_path = ""               # path layer coresponding to recipe
 
 # package list
 

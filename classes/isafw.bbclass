@@ -29,6 +29,17 @@ do_analysesource[depends] += "python-lxml-native:do_populate_sysroot"
 do_analysesource[nostamp] = "1"
 do_analysesource[cleandirs] = "${ISAFW_WORKDIR}"
 
+def recipe_layer(recipe_name, d):
+    file = d.getVar('FILE', True)
+    collections = (d.getVar('BBFILE_COLLECTIONS', True) or '').split()
+    collection_res = {}
+    for collection in collections:
+        collection_res[collection] = d.getVar('BBFILE_PATTERN_%s' % collection, True) or ''
+
+    for item in collection_res:
+        if collection_res[item][1:] in file:
+            return item,collection_res[item][1:-1]
+
 python do_analysesource() {
     from isafw import isafw
 
@@ -42,6 +53,7 @@ python do_analysesource() {
     recipe.name = d.getVar('BPN', True)
     recipe.version = d.getVar('PV', True)
     recipe.version = recipe.version.split('+git', 1)[0]
+    recipe.layer,recipe.layer_path = recipe_layer(recipe.name, d)
 
     for p in d.getVar('PACKAGES', True).split():
         license = str(d.getVar('LICENSE_' + p, True))
